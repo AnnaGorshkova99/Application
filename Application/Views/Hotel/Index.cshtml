@@ -1,0 +1,26 @@
+﻿@model IEnumerable<Hotel>
+@{
+    ViewData["Title"] = "Главная";
+}
+<div class="text-center">
+    <h3>Отели</h3>
+    <table>
+        @if (Model != null)
+        {
+            @foreach (var hotel in Model)
+            {
+                <tr>
+                    <td>
+                        <div style="background-color:yellowgreen;width:20px;height:20px;border-radius:15px" />
+                    </td>
+                    <td align="left">
+                        <div style="display:flex;background-color:gray">
+                            @hotel.Name
+                        </div>
+                    </td>
+                    <td><a href="~/Hotel/Get/@hotel.Id">Перейти</a></td>
+                </tr>
+            }
+        }
+    </table>
+</div>

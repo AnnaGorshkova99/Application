@@ -21,7 +21,7 @@ namespace Application.DataAccess.Configurations
             builder.HasMany(r => r.Clients)
                 .WithOne(c => c.Room)
                 .HasForeignKey(c => c.RoomId)
-                .OnDelete(DeleteBehavior.NoAction)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_Room_Clients");
         }
     }

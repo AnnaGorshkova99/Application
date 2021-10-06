@@ -1,0 +1,40 @@
+﻿@model IEnumerable<Specialization>
+@{
+    ViewData["Title"] = $"Изменение сотрудника";
+}
+<div>
+    <h3>Форма для изменения данных сотрудника @ViewBag.Empl.Name</h3>
+
+    <form method="post">
+        <div class="form-group">
+            <label for="exampleInputName1">Отель сотрудника</label>
+            <select class="custom-select" name="HotelId" id="inputGroupSelect01" value="@ViewBag.Empl.HotelId">
+                @foreach (Hotel hotel in ViewBag.Hotels)
+                {
+                    <option value=@hotel.Id>@hotel.Name</option>
+                }
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputName1">ФИО сотрудника</label>
+            <input class="form-control" name="Name" type="text" placeholder="Введите ФИО сотрудника" value="@ViewBag.Empl.Name">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputName1">Номер телефона сотрудника</label>
+            <input class="form-control" name="PhoneNumber" type="text" placeholder="Введите номер телефона сотрудника" value="@ViewBag.Empl.PhoneNumber">
+        </div>
+
+        <div class="form-group">
+            <label for="exampleInputName1">Специализация сотрудника</label>
+            <select class="custom-select" name="SpecializationId" id="inputGroupSelect01" value="@ViewBag.Empl.SpecializationId">
+                @foreach (Specialization spec in Model.ToList())
+                {
+                    <option value=@spec.Id>@spec.Name</option>
+                }
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Изменить</button>
+    </form>
+
+</div>

@@ -21,13 +21,13 @@ namespace Application.DataAccess.Configurations
             builder.HasMany(h => h.HotelRooms)
                 .WithOne(r => r.Hotel)
                 .HasForeignKey(r => r.HotelId)
-                .OnDelete(DeleteBehavior.NoAction)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_Hotel_Rooms");
 
             builder.HasMany(h => h.Employees)
                 .WithOne(r => r.Hotel)
                 .HasForeignKey(r => r.HotelId)
-                .OnDelete(DeleteBehavior.NoAction)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_Hotel_Employees");
         }
     }

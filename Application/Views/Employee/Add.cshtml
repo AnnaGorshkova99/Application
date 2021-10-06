@@ -1,0 +1,32 @@
+﻿@model IEnumerable<Specialization>
+@{
+    ViewData["Title"] = $"Добавление сотрудника для отеля ";
+}
+<div>
+    <h3>Форма для добавления нового сотрудника для @ViewBag.Hotel.Name</h3>
+
+    <form method="post">
+        <input type="hidden" name="HotelId" value="@ViewBag.Hotel.Id" />
+        <div class="form-group">
+            <label for="exampleInputName1">ФИО сотрудника</label>
+            <input class="form-control" name="Name" type="text" placeholder="Введите ФИО сотрудника">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputName1">Номер телефона сотрудника</label>
+            <input class="form-control" name="PhoneNumber" type="text" placeholder="Введите номер телефона сотрудника">
+        </div>
+
+        <div class="form-group">
+            <label for="exampleInputName1">Специализация сотрудника</label>
+            <select class="custom-select" name="SpecializationId" id="inputGroupSelect01">
+                @foreach (Specialization spec in Model.ToList())
+                {
+                    <option value=@spec.Id>@spec.Name</option>
+                }
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Добавить</button>
+    </form>
+
+</div>

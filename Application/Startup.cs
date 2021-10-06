@@ -3,10 +3,15 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Application.DataAccess;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Application.Infrastructure.Repository;
+using Microsoft.EntityFrameworkCore;
+using Application.Services.Repositories;
+using Application.Services.Repositories.EmployeeRepository;
 
 namespace Application
 {
@@ -22,6 +27,15 @@ namespace Application
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //Регистрация контекста базы данных
+            services.AddDbContext<BaseDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddScoped<DbContext>(s => s.GetRequiredService<BaseDbContext>());
+
+            //Регистрация репозитория
+            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            services.AddScoped(typeof(IHotelRepository), typeof(HotelRepository));
+            services.AddScoped(typeof(IEmployeeRepository), typeof(EmployeeRepository));
+
             services.AddControllersWithViews();
         }
 
@@ -46,7 +60,7 @@ namespace Application
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Hotel}/{action=Index}/{id?}");
             });
         }
     }

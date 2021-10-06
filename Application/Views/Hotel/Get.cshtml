@@ -1,0 +1,30 @@
+﻿@model Hotel
+@{
+    ViewData["Title"] = $"{Model.Name}";
+}
+<div>
+    <h3>@Model.Name</h3>
+
+    <h4>Номера</h4>
+    <ul>
+        @foreach (var room in Model.HotelRooms)
+        {
+            <li>
+                <p>@room.Number - @room.Category.Name, @room.NumberOfSeats мест(а)</p>
+            </li>
+        }
+    </ul>
+
+    <h3>Сотрудники</h3>
+
+    <ul style="list-style-type:disc;">
+        @foreach (var empl in Model.Employees)
+        {
+            <li>
+                <p>@empl.Name - @empl.Specialization.Name</p>
+            </li>
+
+        }
+    </ul>
+
+</div>

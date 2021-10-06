@@ -1,0 +1,32 @@
+﻿@model IEnumerable<Hotel>
+@{
+    ViewData["Title"] = "Управление отелями";
+}
+<div class="text-center">
+    <a href="~/Admin/Index">Назад</a>
+    <h3>Отели</h3>
+    <table class="table">
+        <tr>
+            <th>Идентификатор отеля</th>
+            <th>Название отеля</th>
+            <th>Открыть</th>
+            <th>Изменить</th>
+            <th>Удалить</th>
+        </tr>
+        @if (Model != null)
+        {
+            @foreach (var hotel in Model)
+            {
+                <tr>
+                    <td>@hotel.Id</td>
+                    <td>@hotel.Name</td>
+                    <td><a href="~/Hotel/Get/@hotel.Id">Открыть</a></td>
+                    <td><a href="~/Hotel/Edit/@hotel.Id">Изменить</a></td>
+                    <td><a href="~/Hotel/ConfirmDelete/@hotel.Id">Удалить</a></td>
+                </tr>
+            }
+        }
+
+    </table>
+    <a href="~/Hotel/Add/">Добавить отель</a>
+</div>

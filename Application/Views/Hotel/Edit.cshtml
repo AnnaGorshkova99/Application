@@ -1,0 +1,29 @@
+﻿@model Hotel 
+@{
+    ViewData["Title"] = $"Создание отеля";
+}
+<div>
+    <h3>Форма для изменения данных @Model.Name</h3>
+
+    <form method="post">
+        <div class="form-group">
+            <label for="exampleInputName1">Наименование отеля</label>
+            <input class="form-control" name="Name" type="text" placeholder="Введите наименование отеля">
+        </div>
+        <button type="submit" class="btn btn-primary">Добавить</button>
+    </form>
+
+    <h3>Сотрудники</h3>
+
+    <ul style="list-style-type:disc;">
+        @foreach (var empl in Model.Employees)
+        {
+            <li>
+                <p>@empl.Name - @empl.Specialization.Name</p>
+            </li>
+
+        }
+    </ul>
+    <a href="~/Employee/Add/@Model.Id">Добавить сотрудника</a>
+
+</div>
