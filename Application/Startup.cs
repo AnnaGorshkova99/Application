@@ -12,6 +12,7 @@ using Application.Infrastructure.Repository;
 using Microsoft.EntityFrameworkCore;
 using Application.Services.Repositories;
 using Application.Services.Repositories.EmployeeRepository;
+using Application.Services.Repositories.RoomRepository;
 
 namespace Application
 {
@@ -35,6 +36,7 @@ namespace Application
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped(typeof(IHotelRepository), typeof(HotelRepository));
             services.AddScoped(typeof(IEmployeeRepository), typeof(EmployeeRepository));
+            services.AddScoped(typeof(IRoomRepository), typeof(RoomRepository));
 
             services.AddControllersWithViews();
         }

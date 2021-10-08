@@ -1,0 +1,30 @@
+﻿@model IEnumerable<Specialization>
+@{
+    ViewData["Title"] = "Управление специализациями";
+}
+<div class="text-center">
+    <a href="~/Admin/Index">Назад</a>
+    <h3>Специализации</h3>
+    <table class="table">
+        <tr>
+            <th>Идентификатор специализации</th>
+            <th>Название специализации</th>
+            <th>Изменить</th>
+            <th>Удалить</th>
+        </tr>
+        @if (Model != null)
+        {
+            @foreach (var spec in Model)
+            {
+                <tr>
+                    <td>@spec.Id</td>
+                    <td>@spec.Name</td>
+                    <td><a href="~/Specialization/Edit/@spec.Id">Изменить</a></td>
+                    <td><a href="~/Specialization/ConfirmDelete/@spec.Id">Удалить</a></td>
+                </tr>
+            }
+        }
+
+    </table>
+    <a href="~/Specialization/Add/">Добавить специализацию</a>
+</div>

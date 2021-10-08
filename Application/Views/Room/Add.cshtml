@@ -1,0 +1,32 @@
+﻿@model IEnumerable<Category>
+@{
+    ViewData["Title"] = $"Добавление номера для отеля {ViewBag.Hotel.Name}";
+}
+<div>
+    <h3>Форма для добавления нового номера для @ViewBag.Hotel.Name</h3>
+
+    <form method="post">
+        <input type="hidden" name="HotelId" value="@ViewBag.Hotel.Id" />
+        <div class="form-group">
+            <label for="exampleInputName1">Номер</label>
+            <input class="form-control" name="Number" type="text" placeholder="Введите номер">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputName1">Количество мест</label>
+            <input class="form-control" name="NumberOfSeats" type="text" placeholder="Введите количество мест">
+        </div>
+
+        <div class="form-group">
+            <label for="exampleInputName1">Категория номера</label>
+            <select class="custom-select" name="CategoryId" id="inputGroupSelect01">
+                @foreach (Category spec in Model.ToList())
+                {
+                    <option value=@spec.Id>@spec.Name</option>
+                }
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Добавить</button>
+    </form>
+
+</div>

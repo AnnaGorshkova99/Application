@@ -87,5 +87,21 @@ namespace Application.Controllers
             await employeeRepository.UpdateAsync(empl);
             return RedirectToAction("GetAdmin");
         }
+
+        [HttpGet]
+        public async Task<IActionResult> ConfirmDelete(Guid id)
+        {
+            if (id != Guid.Empty)
+            {
+                Employee empl = await employeeRepository.GetByIdAsync(id);
+
+                if (empl != null)
+                {
+                    await employeeRepository.DeleteAsync(empl);
+                    return RedirectToAction("GetAdmin");
+                }
+            }
+            return NotFound();
+        }
     }
 }

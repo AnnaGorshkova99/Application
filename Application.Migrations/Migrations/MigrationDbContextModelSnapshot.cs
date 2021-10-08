@@ -165,7 +165,7 @@ namespace Application.Migrations.Migrations
                         .WithMany("Employees")
                         .HasForeignKey("SpecializationId")
                         .HasConstraintName("FK_Specialization_Employees")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Hotel");

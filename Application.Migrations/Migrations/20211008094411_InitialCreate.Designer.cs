@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Application.Migrations.Migrations
 {
     [DbContext(typeof(MigrationDbContext))]
-    [Migration("20211006154024_UpdateConfigurations")]
-    partial class UpdateConfigurations
+    [Migration("20211008094411_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -167,7 +167,7 @@ namespace Application.Migrations.Migrations
                         .WithMany("Employees")
                         .HasForeignKey("SpecializationId")
                         .HasConstraintName("FK_Specialization_Employees")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Hotel");

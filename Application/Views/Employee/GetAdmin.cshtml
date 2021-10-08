@@ -9,6 +9,7 @@
         <tr>
             <th>Идентификатор сотрудника</th>
             <th>Отель сотрудника</th>
+            <th>Специализация сотрудника</th>
             <th>ФИО сотрудника</th>
             <th>Номер телефона сотрудника</th>
             <th>Изменить</th>
@@ -21,6 +22,7 @@
                 <tr>
                     <td>@empl.Id</td>
                     <td>@empl.Hotel.Name</td>
+                    <td>@empl.Specialization.Name</td>
                     <td>@empl.Name</td>
                     <td>@empl.PhoneNumber</td>
                     <td><a href="~/Employee/Edit/@empl.Id">Изменить</a></td>

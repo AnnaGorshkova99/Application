@@ -66,7 +66,8 @@ namespace Application.Migrations.Migrations
                         name: "FK_Hotel_Rooms",
                         column: x => x.HotelId,
                         principalTable: "Hotel",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -86,12 +87,14 @@ namespace Application.Migrations.Migrations
                         name: "FK_Hotel_Employees",
                         column: x => x.HotelId,
                         principalTable: "Hotel",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Specialization_Employees",
                         column: x => x.SpecializationId,
                         principalTable: "Specialization",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -110,7 +113,8 @@ namespace Application.Migrations.Migrations
                         name: "FK_Room_Clients",
                         column: x => x.RoomId,
                         principalTable: "Room",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

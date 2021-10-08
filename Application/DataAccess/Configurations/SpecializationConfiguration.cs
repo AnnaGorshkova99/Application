@@ -18,10 +18,10 @@ namespace Application.DataAccess.Configurations
             builder.HasKey(s => s.Id);
             builder.Property(s => s.Id).ValueGeneratedOnAdd();
 
-            builder.HasMany(s => s.Employees)
-                .WithOne(e => e.Specialization)
-                .HasForeignKey(e => e.SpecializationId)
-                .OnDelete(DeleteBehavior.NoAction)
+            builder.HasMany(h => h.Employees)
+                .WithOne(r => r.Specialization)
+                .HasForeignKey(r => r.SpecializationId)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_Specialization_Employees");
         }
     }

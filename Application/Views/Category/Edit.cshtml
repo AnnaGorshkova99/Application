@@ -1,0 +1,16 @@
+﻿@model Category
+@{
+    ViewData["Title"] = $"Изменение категории";
+}
+<div>
+    <h3>Форма для изменения категории</h3>
+
+    <form method="post">
+        <div class="form-group">
+            <label for="exampleInputName1">Наименование категории</label>
+            <input class="form-control" name="Name" type="text" placeholder="Введите наименование специкатегориилизации">
+        </div>
+        <button type="submit" class="btn btn-primary">Изменить</button>
+    </form>
+
+</div>

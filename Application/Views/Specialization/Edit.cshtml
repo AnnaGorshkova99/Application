@@ -1,0 +1,16 @@
+﻿@model Specialization
+@{
+    ViewData["Title"] = $"Изменение специализации";
+}
+<div>
+    <h3>Форма для изменения специализации @Model.Name</h3>
+
+    <form method="post">
+        <div class="form-group">
+            <label for="exampleInputName1">Наименование специализации</label>
+            <input class="form-control" name="Name" type="text" placeholder="Введите наименование специализации">
+        </div>
+        <button type="submit" class="btn btn-primary">Добавить</button>
+    </form>
+
+</div>

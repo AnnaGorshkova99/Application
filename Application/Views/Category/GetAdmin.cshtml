@@ -1,0 +1,30 @@
+﻿@model IEnumerable<Category>
+@{
+    ViewData["Title"] = "Управление категориями номеров";
+}
+<div class="text-center">
+    <a href="~/Admin/Index">Назад</a>
+    <h3>Категории</h3>
+    <table class="table">
+        <tr>
+            <th>Идентификатор категории</th>
+            <th>Название категории</th>
+            <th>Изменить</th>
+            <th>Удалить</th>
+        </tr>
+        @if (Model != null)
+        {
+            @foreach (var cat in Model)
+            {
+                <tr>
+                    <td>@cat.Id</td>
+                    <td>@cat.Name</td>
+                    <td><a href="~/Category/Edit/@cat.Id">Изменить</a></td>
+                    <td><a href="~/Category/ConfirmDelete/@cat.Id">Удалить</a></td>
+                </tr>
+            }
+        }
+
+    </table>
+    <a href="~/Category/Add/">Добавить категорию</a>
+</div>
