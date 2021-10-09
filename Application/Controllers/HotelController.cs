@@ -1,6 +1,7 @@
 ﻿using Application.Infrastructure.Repository;
 using Application.Models;
 using Application.Services.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -11,13 +12,14 @@ using System.Threading.Tasks;
 
 namespace Application.Controllers
 {
+    [Authorize]
     public class HotelController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ILogger<HotelController> _logger;
         private readonly IHotelRepository superHotelRepository;
         private readonly IRepository<Hotel> hotelRepository;
 
-        public HotelController(ILogger<HomeController> logger, 
+        public HotelController(ILogger<HotelController> logger, 
             IHotelRepository superHotelRepository, 
             IRepository<Hotel> hotelRepository)
         {
@@ -26,11 +28,14 @@ namespace Application.Controllers
             this.hotelRepository = hotelRepository;
         }
 
+
+        
         public IActionResult Index()
         {
             return View(hotelRepository.GetAll().ToList());
         }
 
+        [Authorize(Roles = "Администратор")]
         public IActionResult GetAdmin()
         {
             return View(hotelRepository.GetAll().ToList());
@@ -44,12 +49,14 @@ namespace Application.Controllers
             return View(hotel);
         }
 
+        [Authorize(Roles = "Администратор")]
         [HttpGet]
         public async Task<IActionResult> Add()
         {
             return View();
         }
 
+        [Authorize(Roles = "Администратор")]
         [HttpPost]
         public async Task<IActionResult> Add(Hotel hotel)
         {
@@ -59,6 +66,7 @@ namespace Application.Controllers
             return RedirectToAction("GetAdmin");
         }
 
+        [Authorize(Roles = "Администратор")]
         [HttpGet]
         public async Task<IActionResult> Edit(Guid id)
         {
@@ -70,6 +78,7 @@ namespace Application.Controllers
             return NotFound();
         }
 
+        [Authorize(Roles = "Администратор")]
         [HttpPost]
         public async Task<IActionResult> Edit(Hotel hotel)
         {
@@ -80,6 +89,7 @@ namespace Application.Controllers
 
         }
 
+        [Authorize(Roles = "Администратор")]
         [HttpGet]
         public async Task<IActionResult> ConfirmDelete(Guid id)
         {

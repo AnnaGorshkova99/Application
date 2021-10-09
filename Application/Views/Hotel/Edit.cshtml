@@ -5,33 +5,45 @@
 <div>
 
     <h3>Форма для изменения данных @Model.Name</h3>
+    <div class="form-group">
+        <form method="post">
+            <div class="form-group">
+                <label for="exampleInputName1">Наименование отеля</label>
+                <input class="form-control" name="Name" type="text" placeholder="Введите наименование отеля">
 
-    <form method="post">
-        <div class="form-group">
-            <label for="exampleInputName1">Наименование отеля</label>
-            <input class="form-control" name="Name" type="text" placeholder="Введите наименование отеля">
-            
-        </div>
-        <button type="submit" class="btn btn-primary">Обновить</button>
-    </form>
+            </div>
+            <button type="submit" class="btn btn-primary">Обновить</button>
+        </form>
+    </div>
 
     <div class="form-group">
-        <label for="exampleInputName1">Номера</label>
-        <ul style="list-style-type:disc;">
-            @foreach (var room in Model.HotelRooms)
-            {
-                <li>
-                    <p>@room.Number - @room.Category.Name - @room.NumberOfSeats мест(а)</p>
-                </li>
+        <h4>Номера</h4>
 
+        <table class="table">
+            <tr>
+                <th>Номер</th>
+                <th>Категория</th>
+                <th>Количество мест</th>
+            </tr>
+            @if (Model != null)
+            {
+                @foreach (var room in Model.HotelRooms)
+                {
+                    <tr>
+                        <td>@room.Number</td>
+                        <td>@room.Category.Name</td>
+                        <td>@room.NumberOfSeats</td>
+                    </tr>
+                }
             }
-        </ul>
+
+        </table>
         <a href="~/Room/Add/@Model.Id">Добавить номер</a>
     </div>
     
     
     <div class="form-group">
-        <label for="exampleInputName1">Сотрудники</label>
+        <h4>Сотрудники</h4>
         <ul style="list-style-type:disc;">
             @foreach (var empl in Model.Employees)
             {

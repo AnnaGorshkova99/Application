@@ -1,5 +1,6 @@
 ﻿using Application.Infrastructure.Repository;
 using Application.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace Application.Controllers
 {
+    [Authorize(Roles = "Администратор")]
     public class CategoryController : Controller
     {
         IRepository<Category> repository;

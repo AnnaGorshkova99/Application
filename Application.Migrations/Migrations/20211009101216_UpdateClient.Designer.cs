@@ -4,34 +4,22 @@ using Application.Migrations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Application.Migrations.Migrations
 {
     [DbContext(typeof(MigrationDbContext))]
-    partial class MigrationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211009101216_UpdateClient")]
+    partial class UpdateClient
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.10")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("Application.Models.Auth.Role", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Role");
-                });
 
             modelBuilder.Entity("Application.Models.Category", b =>
                 {
@@ -65,15 +53,10 @@ namespace Application.Migrations.Migrations
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("RoleId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid?>("RoomId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("RoleId");
 
                     b.HasIndex("RoomId");
 
@@ -167,19 +150,11 @@ namespace Application.Migrations.Migrations
 
             modelBuilder.Entity("Application.Models.Client", b =>
                 {
-                    b.HasOne("Application.Models.Auth.Role", "Role")
-                        .WithMany("Clients")
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Application.Models.Room", "Room")
                         .WithMany("Clients")
                         .HasForeignKey("RoomId")
                         .HasConstraintName("FK_Room_Clients")
                         .OnDelete(DeleteBehavior.Cascade);
-
-                    b.Navigation("Role");
 
                     b.Navigation("Room");
                 });
@@ -224,11 +199,6 @@ namespace Application.Migrations.Migrations
                     b.Navigation("Category");
 
                     b.Navigation("Hotel");
-                });
-
-            modelBuilder.Entity("Application.Models.Auth.Role", b =>
-                {
-                    b.Navigation("Clients");
                 });
 
             modelBuilder.Entity("Application.Models.Category", b =>

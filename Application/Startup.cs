@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using Application.Services.Repositories;
 using Application.Services.Repositories.EmployeeRepository;
 using Application.Services.Repositories.RoomRepository;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace Application
 {
@@ -38,6 +39,12 @@ namespace Application
             services.AddScoped(typeof(IEmployeeRepository), typeof(EmployeeRepository));
             services.AddScoped(typeof(IRoomRepository), typeof(RoomRepository));
 
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options => //CookieAuthenticationOptions
+                {
+                    options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
+                });
+
             services.AddControllersWithViews();
         }
 
@@ -56,7 +63,9 @@ namespace Application
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
+            
 
             app.UseEndpoints(endpoints =>
             {

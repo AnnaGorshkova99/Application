@@ -17,6 +17,8 @@ namespace Application.DataAccess.Configurations
 
             builder.HasKey(c => c.Id);
             builder.Property(c => c.Id).ValueGeneratedOnAdd();
+
+
         }
     }
 }
