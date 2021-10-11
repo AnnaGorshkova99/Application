@@ -63,8 +63,6 @@ namespace Application.Controllers
             hotel.Employees = new List<Employee>();
             hotel.HotelRooms = new List<Room>();
 
-            FileInfo fi = new FileInfo(hotel.Image);
-            fi.CopyTo("Assets/img/");
 
             await hotelRepository.AddAsync(hotel);
             return RedirectToAction("GetAdmin");

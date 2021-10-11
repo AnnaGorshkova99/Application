@@ -32,7 +32,22 @@ namespace Application.Controllers
         public async Task<IActionResult> GetAdmin()
         {
             List<Room> rooms = await superRepository.GetAllWithAll();
+            ViewBag.Hotels = hotelRepository.GetAll().ToList();
             return View(rooms);
+        }
+
+        [HttpGet]
+        [Route("Room/GetFilter/{hotelId}")]
+        public async Task<IActionResult> GetFilter(string hotelId)
+        {
+            List<Room> rooms = repository.GetAll().ToList();
+
+            var h = from i in rooms
+                    where i.HotelId.ToString() == hotelId
+                    select i;
+
+            rooms = h.ToList();
+            return new JsonResult(rooms);
         }
 
         [HttpGet]

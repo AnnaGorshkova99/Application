@@ -3,19 +3,59 @@
     ViewData["Title"] = "Управление номерами";
 }
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#buttonDemo1').click(function () {
+            var HotelId = $('#selectHotel').val();
+            $.ajax({
+                type: 'GET',
+                url: '/Room/GetFilter/' + HotelId,
+                success: function (rooms) {
+                    var s = '<ul>';
+
+                    for (var i = 0; i < rooms.length; i++) {
+                        s += '<li>' + rooms[i].number + '</li>';
+                    }
+
+                    s += "</ul>"
+
+                    $('#result1').html(s);
+                }
+            });
+        });
+    })
+</script>
+
 <div class="text-center">
     <a href="~/Admin/Index">Назад</a>
     <h3>Номера</h3>
-    @using (Html.BeginForm())
-    {
-        <div>
-            @Html.DropDownList("selectedRole", new SelectList(
-                new[] { "All" }.Concat(Enum.GetNames(typeof(Role)))))
-            <button type="submit">Отобразить</button>
+</div>
+
+<fieldset>
+    <form>
+        <div class="form-group">
+            <select class="custom-select" id="selectHotel">
+                @foreach (Hotel spec in ViewBag.Hotels)
+                {
+                    <option value=@spec.Id.ToString()>@spec.Name</option>
+                }
+            </select>
         </div>
-    }
 
+        <div class="form-group">
+            <input type="button" class="btn btn-primary" value="Показать" id="buttonDemo1" />
+        </div>
 
+        <div class="form-group">
+            <span id="result1" />
+        </div>
+    </form>
+</fieldset>
+
+<div class="text-center">
+    
     <table class="table">
         <tr>
             <th>Идентификатор номера</th>

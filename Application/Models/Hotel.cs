@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Application.Models
@@ -26,6 +27,7 @@ namespace Application.Models
         /// <summary>
         /// Гостиничные номера
         /// </summary>
+        [JsonIgnore]
         public ICollection<Room> HotelRooms { get; set; }
         /// <summary>
         /// Сотрудники

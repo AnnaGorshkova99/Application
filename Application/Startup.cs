@@ -46,6 +46,7 @@ namespace Application
             services.AddScoped(typeof(IRoomRepository), typeof(RoomRepository));
             services.AddScoped(typeof(IClientRepository), typeof(ClientRepository));
 
+
             services.AddControllersWithViews();
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
