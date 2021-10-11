@@ -2,9 +2,20 @@
 @{
     ViewData["Title"] = "Управление номерами";
 }
+
 <div class="text-center">
     <a href="~/Admin/Index">Назад</a>
     <h3>Номера</h3>
+    @using (Html.BeginForm())
+    {
+        <div>
+            @Html.DropDownList("selectedRole", new SelectList(
+                new[] { "All" }.Concat(Enum.GetNames(typeof(Role)))))
+            <button type="submit">Отобразить</button>
+        </div>
+    }
+
+
     <table class="table">
         <tr>
             <th>Идентификатор номера</th>

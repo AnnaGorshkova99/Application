@@ -14,6 +14,12 @@ using Application.Services.Repositories;
 using Application.Services.Repositories.EmployeeRepository;
 using Application.Services.Repositories.RoomRepository;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Application.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Application.Services.Repositories.ClientRepository;
 
 namespace Application
 {
@@ -38,14 +44,13 @@ namespace Application
             services.AddScoped(typeof(IHotelRepository), typeof(HotelRepository));
             services.AddScoped(typeof(IEmployeeRepository), typeof(EmployeeRepository));
             services.AddScoped(typeof(IRoomRepository), typeof(RoomRepository));
-
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(options => //CookieAuthenticationOptions
-                {
-                    options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
-                });
+            services.AddScoped(typeof(IClientRepository), typeof(ClientRepository));
 
             services.AddControllersWithViews();
+
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<BaseDbContext>()
+                .AddDefaultTokenProviders();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

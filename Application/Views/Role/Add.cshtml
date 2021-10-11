@@ -1,0 +1,15 @@
+﻿@{
+    ViewData["Title"] = $"Создание роли";
+}
+<div>
+    <h3>Форма для добавления новой роли</h3>
+
+    <form asp-action="Add" asp-controller="Role" method="post">
+        <div class="form-group">
+            <label for="exampleInputName1">Наименование роли</label>
+            <input class="form-control" name="Name" type="text" placeholder="Введите наименование роли">
+        </div>
+        <button type="submit" class="btn btn-primary">Добавить</button>
+    </form>
+
+</div>

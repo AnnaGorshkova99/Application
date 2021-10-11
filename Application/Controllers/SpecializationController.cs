@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Application.Controllers
 {
-    [Authorize(Roles = "Администратор")]
+    [Authorize(Roles = "admin")]
     public class SpecializationController : Controller
     {
         IRepository<Specialization> repository;

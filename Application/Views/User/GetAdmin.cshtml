@@ -1,0 +1,31 @@
+﻿@model IEnumerable<Client>
+@{
+    ViewData["Title"] = "Управление пользователями";
+}
+<div class="text-center">
+    <a href="~/Admin/Index">Назад</a>
+    <h3>Пользователи</h3>
+    <table class="table">
+        <tr>
+            <th>Идентификатор пользователя</th>
+            <th>Email пользователя</th>
+            <th>Имя пользователя</th>
+            <th>Изменить</th>
+            <th>Удалить</th>
+        </tr>
+        @if (Model != null)
+        {
+            @foreach (var hotel in Model)
+            {
+                <tr>
+                    <td>@hotel.Id</td>
+                    <td>@hotel.User.Email</td>
+                    <td>@hotel.Name</td>
+                    <td><a href="~/User/Edit/@hotel.Id.ToString()">Изменить</a></td>
+                    <td><a href="~/User/ConfirmDelete/@hotel.Id.ToString()">Удалить</a></td>
+                </tr>
+            }
+        }
+
+    </table>
+</div>

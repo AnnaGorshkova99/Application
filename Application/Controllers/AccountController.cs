@@ -1,9 +1,12 @@
 ﻿using Application.Infrastructure.Repository;
 using Application.Models;
 using Application.Models.Auth;
+using Application.Services.Repositories.ClientRepository;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -15,21 +18,65 @@ namespace Application.Controllers
 {
     public class AccountController : Controller
     {
-        private IRepository<Client> repository;
-        private IRepository<Role> roleRepository;
-        public AccountController(IRepository<Client> repository, 
-            IRepository<Role> roleRepository)
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        IRepository<Client> repository;
+
+        public AccountController(IRepository<Client> repository,
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager, 
+            IClientRepository superRepository)
         {
+            _userManager = userManager;
+            _signInManager = signInManager;
             this.repository = repository;
-            this.roleRepository = roleRepository;
         }
 
+
         [HttpGet]
-        public IActionResult Login()
+        public IActionResult Register()
         {
             return View();
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Register(RegisterModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                ApplicationUser au = new ApplicationUser()
+                {
+                    Email = model.Email,
+                    UserName = model.Email,
+                    PhoneNumber = model.PhoneNumber
+                };
+                Client user = new Client { User = au, PhoneNumber = model.PhoneNumber, Name = model.Name };
+                // добавляем пользователя
+                var result = await _userManager.CreateAsync(au, model.Password);
+
+                if (result.Succeeded)
+                {
+                    // установка куки
+                    await _signInManager.SignInAsync(au, false);
+                    await repository.AddAsync(user);
+                    return RedirectToAction("Index", "Hotel");
+                }
+                else
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+                }
+            }
+            return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult Login(string returnUrl = null)
+        {
+            return View(new LoginModel { ReturnUrl = returnUrl });
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -37,76 +84,34 @@ namespace Application.Controllers
         {
             if (ModelState.IsValid)
             {
-                Client user = repository.GetAllFiltered(u => u.Email == model.Email && u.Password == model.Password).FirstOrDefault();
-                if (user != null)
+                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
+                if (result.Succeeded)
                 {
-                    await Authenticate(user); // аутентификация
-
-                    return RedirectToAction("Index", "Hotel");
-                }
-                ModelState.AddModelError("", "Некорректные логин и(или) пароль");
-            }
-            return View(model);
-        }
-        [HttpGet]
-        public IActionResult Register()
-        {
-            return View();
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(RegisterModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                Client user = repository.GetAllFiltered(u => u.Email == model.Email).FirstOrDefault();
-                if (user == null)
-                {
-                    user = new Client { Email = model.Email, Password = model.Password, Name = model.Name, PhoneNumber = model.PhoneNumber, RoleId = Guid.Parse("729a562d-5a35-4219-be9d-2ac3a6a0a260") };
-                    Role userRole = null;
-                    if (user.Email == "xventruxx@mail.ru")
+                    // проверяем, принадлежит ли URL приложению
+                    if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
                     {
-                        userRole = roleRepository.GetAllFiltered(r => r.Name == "Администратор").FirstOrDefault();
+                        return Redirect(model.ReturnUrl);
                     }
                     else
                     {
-                        userRole = roleRepository.GetAllFiltered(r => r.Name == "Пользователь").FirstOrDefault();
+                        return RedirectToAction("Index", "Hotel");
                     }
-                    
-                    if (userRole != null)
-                        user.Role = userRole;
-
-                    // добавляем пользователя в бд
-                    await repository.AddAsync(user);
-
-                    await Authenticate(user); // аутентификация
-
-                    return RedirectToAction("Index", "Hotel");
                 }
                 else
-                    ModelState.AddModelError("", "Некорректные логин и(или) пароль");
+                {
+                    ModelState.AddModelError("", "Неправильный логин и (или) пароль");
+                }
             }
             return View(model);
         }
 
-        private async Task Authenticate(Client user)
-        {
-            // создаем один claim
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimsIdentity.DefaultNameClaimType, user.Email),
-                new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role.Name)
-            };
-            // создаем объект ClaimsIdentity
-            ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
-            // установка аутентификационных куки
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
-        }
-
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("Login", "Account");
+            // удаляем аутентификационные куки
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Hotel");
         }
     }
 }

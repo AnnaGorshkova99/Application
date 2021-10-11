@@ -1,0 +1,26 @@
+﻿@model IEnumerable<Microsoft.AspNetCore.Identity.IdentityRole>
+@{
+    ViewData["Title"] = "Управление ролями";
+}
+<div class="text-center">
+    <a href="~/Admin/Index">Назад</a>
+    <h3>Роли</h3>
+    <table class="table">
+        <tr>
+            <th>Роль</th>
+            <th>Удалить</th>
+        </tr>
+        @if (Model != null)
+        {
+            @foreach (var hotel in Model)
+            {
+                <tr>
+                    <td>@hotel.Name</td>
+                    <td><a href="~/Role/ConfirmDelete/@hotel.Id.ToString()">Удалить</a></td>
+                </tr>
+            }
+        }
+
+    </table>
+    <a href="~/Role/Add/">Добавить роль</a>
+</div>

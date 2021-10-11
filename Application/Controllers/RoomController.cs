@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Application.Controllers
 {
-    [Authorize(Roles = "Администратор")]
+    [Authorize(Roles = "admin")]
     public class RoomController : Controller
     {
         IRepository<Room> repository;

@@ -1,5 +1,6 @@
 ﻿using Application.Models.Auth;
 using Application.Models.Base;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,7 @@ namespace Application.Models
     /// </summary>
     public class Client : Person
     {
+
         /// <summary>
         /// Гостиничный номер пользователя
         /// </summary>
@@ -21,10 +23,6 @@ namespace Application.Models
         /// </summary>
         public Guid? RoomId { get; set; }
 
-        public string Email { get; set; }
-        public string Password { get; set; }
-
-        public Role Role { get; set; }
-        public Guid RoleId { get; set; }
+        public ApplicationUser User { get; set; }
     }
 }

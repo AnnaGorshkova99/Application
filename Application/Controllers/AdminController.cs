@@ -8,10 +8,9 @@ using System.Threading.Tasks;
 
 namespace Application.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class AdminController : Controller
     {
-
-        [Authorize(Roles = "Администратор")]
         public ActionResult Index()
         {
             return View();

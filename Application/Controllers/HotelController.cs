@@ -7,12 +7,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Application.Controllers
 {
-    [Authorize]
     public class HotelController : Controller
     {
         private readonly ILogger<HotelController> _logger;
@@ -35,7 +35,7 @@ namespace Application.Controllers
             return View(hotelRepository.GetAll().ToList());
         }
 
-        [Authorize(Roles = "Администратор")]
+        [Authorize(Roles = "admin")]
         public IActionResult GetAdmin()
         {
             return View(hotelRepository.GetAll().ToList());
@@ -49,24 +49,28 @@ namespace Application.Controllers
             return View(hotel);
         }
 
-        [Authorize(Roles = "Администратор")]
+        [Authorize(Roles = "admin")]
         [HttpGet]
         public async Task<IActionResult> Add()
         {
             return View();
         }
 
-        [Authorize(Roles = "Администратор")]
+        [Authorize(Roles = "admin")]
         [HttpPost]
         public async Task<IActionResult> Add(Hotel hotel)
         {
             hotel.Employees = new List<Employee>();
             hotel.HotelRooms = new List<Room>();
+
+            FileInfo fi = new FileInfo(hotel.Image);
+            fi.CopyTo("Assets/img/");
+
             await hotelRepository.AddAsync(hotel);
             return RedirectToAction("GetAdmin");
         }
 
-        [Authorize(Roles = "Администратор")]
+        [Authorize(Roles = "admin")]
         [HttpGet]
         public async Task<IActionResult> Edit(Guid id)
         {
@@ -78,7 +82,7 @@ namespace Application.Controllers
             return NotFound();
         }
 
-        [Authorize(Roles = "Администратор")]
+        [Authorize(Roles = "admin")]
         [HttpPost]
         public async Task<IActionResult> Edit(Hotel hotel)
         {
@@ -89,7 +93,7 @@ namespace Application.Controllers
 
         }
 
-        [Authorize(Roles = "Администратор")]
+        [Authorize(Roles = "admin")]
         [HttpGet]
         public async Task<IActionResult> ConfirmDelete(Guid id)
         {

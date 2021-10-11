@@ -16,6 +16,14 @@ namespace Application.Models
         /// </summary>
         public string Name { get; set; }
         /// <summary>
+        /// Описание отеля
+        /// </summary>
+        public string Description { get; set; }
+        /// <summary>
+        /// Изображение отеля
+        /// </summary>
+        public string Image { get; set; }
+        /// <summary>
         /// Гостиничные номера
         /// </summary>
         public ICollection<Room> HotelRooms { get; set; }
