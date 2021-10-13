@@ -15,15 +15,11 @@ namespace Application.Controllers
 {
     public class HotelController : Controller
     {
-        private readonly ILogger<HotelController> _logger;
         private readonly IHotelRepository superHotelRepository;
         private readonly IRepository<Hotel> hotelRepository;
 
-        public HotelController(ILogger<HotelController> logger, 
-            IHotelRepository superHotelRepository, 
-            IRepository<Hotel> hotelRepository)
+        public HotelController(IHotelRepository superHotelRepository, IRepository<Hotel> hotelRepository)
         {
-            _logger = logger;
             this.superHotelRepository = superHotelRepository;
             this.hotelRepository = hotelRepository;
         }
